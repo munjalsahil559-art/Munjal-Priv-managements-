@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Munjal Privé — Elite Lifestyle Management</title>
+<style>
+  /* ================== THEME + RESET ================== */
+  :root{
+    --bg:#0a0a0a;
+    --panel:#121212;
+    --gold:#d4af37;
+    --gold-2:#b38f2b;
+    --muted:#cfcfcf;
+    --glass:rgba(255,255,255,0.04);
+    --accent:#fff;
+    --success:#28a745;
+    --danger:#e03e2d;
+    --transition:0.28s ease;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
+  html,body{height:100%}
+  body{background:var(--bg);color:var(--accent);line-height:1.5;scroll-behavior:smooth}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block;border-radius:10px}
+
+  /* ================== TOP ANNOUNCEMENT (common) ================== */
+  .topbar{background:linear-gradient(90deg,rgba(212,175,55,0.06),transparent);color:var(--muted);padding:6px 12px;text-align:center;font-size:0.95rem}
+  .topbar strong{color:var(--gold);}
+
+  /* ================== HEADER (common) ================== */
+  header{position:sticky;top:0;z-index:60;background:rgba(6,6,6,0.7);backdrop-filter:blur(6px);border-bottom:1px solid rgba(255,255,255,0.03)}
+  .navwrap{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:18px;padding:12px 20px;justify-content:space-between}
+  .brand{font-weight:800;color:var(--gold);font-size:1.3rem;letter-spacing:0.06em}
+  nav ul{display:flex;gap:14px;align-items:center;list-style:none}
+  nav a.navlink{padding:8px 10px;border-radius:8px;transition:all var(--transition);cursor:pointer}
+  nav a.navlink:hover{background:var(--glass);color:var(--gold)}
+  .cta{background:var(--gold);color:#000;padding:8px 12px;border-radius:8px;font-weight:700}
+  .contact-mini{font-size:0.92rem;color:var(--muted)}
+
+  /* hamburger */
+  .hamb{display:none;font-size:20px;cursor:pointer}
+
+  /* ================== PAGE / HERO ================== */
+  .hero{min-height:76vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:60px 20px;background-image:linear-gradient(180deg,rgba(0,0,0,0.25),rgba(0,0,0,0.55)),url('https://images.pexels.com/photos/3184287/pexels-photo-3184287.jpeg');background-size:cover;background-position:center}
+  .hero .inner{max-width:980px}
+  .hero h1{font-size:clamp(30px,6vw,56px);margin-bottom:12px}
+  .hero p{color:var(--muted);margin-bottom:18px;font-size:1.05rem}
+  .hero .actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .btn{background:var(--gold);color:#000;padding:10px 14px;border-radius:8px;font-weight:700;cursor:pointer;border:none;transition:all var(--transition)}
+  .btn.secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--accent)}
+
+  /* ================== SECTIONS ================== */
+  main{max-width:1200px;margin:0 auto;padding:30px 20px 80px}
+  section{padding:48px 0;border-bottom:1px solid rgba(255,255,255,0.02)}
+  .section-head{display:flex;flex-direction:column;align-items:center;gap:8px;margin-bottom:26px}
+  .section-head h2{color:var(--gold);font-size:1.8rem}
+  .lead{color:var(--muted);max-width:920px;text-align:center}
+
+  /* columns/cards */
+  .grid{display:grid;gap:18px}
+  .grid.cols-3{grid-template-columns:repeat(3,1fr)}
+  .grid.cols-2{grid-template-columns:repeat(2,1fr)}
+  .card{background:var(--panel);padding:18px;border-radius:12px;border:1px solid var(--glass);transition:transform var(--transition),box-shadow var(--transition)}
+  .card:hover{transform:translateY(-6px);box-shadow:0 8px 30px rgba(0,0,0,0.6)}
+  .card h3{color:var(--gold);margin-bottom:8px}
+  .muted{color:var(--muted);font-size:0.98rem}
+
+  /* ================== PLANS ================== */
+  .plans{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+  .plan{padding:20px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.01),transparent);border:1px solid rgba(255,255,255,0.03);position:relative}
+  .plan .price{font-size:1.35rem;font-weight:800;color:var(--gold);margin:10px 0}
+  .plan ul{color:var(--muted);margin:8px 0 12px 18px}
+  .plan .payRow{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .plan select{padding:8px;border-radius:8px;background:#0f0f0f;border:1px solid rgba(255,255,255,0.03);color:#fff}
+  .pay-fields{margin-top:12px;display:none}
+  .pay-fields.active{display:block}
+  .pay-fields input{width:100%;padding:10px;border-radius:8px;background:#0d0d0d;border:1px solid rgba(255,255,255,0.03);color:#fff;margin-top:8px}
+
+  /* small helper */
+  .small{font-size:0.9rem;color:var(--muted)}
+
+  /* ================== CUSTOM PLAN ================== */
+  .custom{max-width:680px;margin:0 auto}
+  .custom label{display:flex;justify-content:space-between;align-items:center;padding:10px;border-radius:8px;background:rgba(255,255,255,0.02);margin-bottom:8px;cursor:pointer}
+  .custom input[type="checkbox"]{width:18px;height:18px}
+
+  /* ================== TESTIMONIALS ================== */
+  .test-list{display:flex;gap:14px;overflow:auto;padding-bottom:6px}
+  .testimonial{min-width:260px;flex:0 0 260px;background:var(--panel);padding:14px;border-radius:12px;border:1px solid var(--glass)}
+  .testimonial img{width:64px;height:64px;border-radius:50%;object-fit:cover;margin-bottom:10px}
+
+  /* ================== MODAL (unified payment popup) ================== */
+  .modal-back{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;z-index:120}
+  .modal-back.active{display:flex}
+  .modal{background:#0f0f0f;padding:22px;border-radius:12px;width:min(720px,94%);border:1px solid rgba(255,255,255,0.04)}
+  .modal h3{color:var(--gold);margin-bottom:8px}
+  .modal .line{display:flex;justify-content:space-between;color:var(--muted);margin:8px 0}
+  .modal .total{font-size:1.2rem;font-weight:800;color:var(--gold);margin-top:12px}
+  .modal .actions{display:flex;gap:10px;justify-content:flex-end;margin-top:18px}
+  .modal button{padding:10px 14px;border-radius:8px;border:none;cursor:pointer}
+
+  /* ================== FOOTER (common) ================== */
+  footer{padding:28px 20px;background:linear-gradient(180deg,transparent,rgba(0,0,0,0.6));border-top:1px solid rgba(255,255,255,0.02);margin-top:20px}
+  .foot-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+  .foot-inner .col{color:var(--muted);font-size:0.95rem}
+
+  /* ================== RESPONSIVE ================== */
+  @media(max-width:980px){.grid.cols-3{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:700px){
+    .grid.cols-3{grid-template-columns:repeat(1,1fr)}
+    nav ul{display:none}
+    .hamb{display:block}
+    .navwrap{gap:8px}
+    .hero{padding:36px 20px}
+  }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR (common) -->
+<div class="topbar">
+  <span><strong>Munjal Privé</strong> — 24/7 White-Glove Concierge • Privacy & Discretion • Global Network</span>
+</div>
+
+<!-- HEADER (common) -->
+<header>
+  <div class="navwrap">
+    <div style="display:flex;align-items:center;gap:12px">
+      <div class="brand">Munjal Privé</div>
+      <div class="contact-mini">Call / WhatsApp: +91 99157 78764</div>
+    </div>
+
+    <nav>
+      <ul id="navlinks">
+        <li><a class="navlink" onclick="openSection('home')">Home</a></li>
+        <li><a class="navlink" onclick="openSection('about')">About</a></li>
+        <li><a class="navlink" onclick="openSection('services')">Services</a></li>
+        <li><a class="navlink" onclick="openSection('membership')">Membership</a></li>
+        <li><a class="navlink" onclick="openSection('custom')">Custom Plan</a></li>
+        <li><a class="navlink" onclick="openSection('testimonials')">Testimonials</a></li>
+        <li><a class="navlink" onclick="openSection('contact')">Contact</a></li>
+      </ul>
+    </nav>
+
+    <div style="display:flex;align-items:center;gap:12px">
+      <button class="btn" onclick="openSection('membership')">Become a Member</button>
+      <div class="hamb" id="hambBtn">☰</div>
+    </div>
+  </div>
+</header>
+
+<!-- MAIN (scrollable single-file sections) -->
+<main>
+
+  <!-- HOME -->
+  <section id="home" aria-label="home">
+    <div class="hero">
+      <div class="inner">
+        <h1>Munjal Privé — Live Without Limits</h1>
+        <p class="lead">We craft, manage and deliver bespoke luxury — private travel, VIP events, wellness, shopping and a lifetime of effortless experiences.</p>
+        <div class="actions">
+          <button class="btn" onclick="openSection('membership')">View Memberships</button>
+          <button class="btn secondary" onclick="openSection('custom')">Build Custom Plan</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT (common content expanded) -->
+  <section id="about" style="display:none" aria-label="about">
+    <div class="section-head">
+      <h2>About Munjal Privé</h2>
+      <p class="lead">A boutique lifestyle management service for discerning clients. Experience unmatched discretion, a global partner network, and personal teams who anticipate your needs.</p>
+    </div>
+
+    <div class="grid cols-3">
+      <div class="card">
+        <h3>Our Philosophy</h3>
+        <p class="muted">Time is luxury. We design moments — from once-in-a-lifetime trips to everyday ease — so you can spend life on what matters.</p>
+      </div>
+      <div class="card">
+        <h3>Our Team</h3>
+        <p class="muted">Former private concierges, travel directors, event producers and wellness curators deliver top-tier service and strict privacy.</p>
+      </div>
+      <div class="card">
+        <h3>Global Network</h3>
+        <p class="muted">Connections across private aviation, yachts, Michelin kitchens, fashion houses and exclusive venues — we open doors others cannot.</p>
+      </div>
+
+      <div class="card">
+        <h3>Security & Privacy</h3>
+        <p class="muted">Vetted staff, encrypted communications and bespoke privacy protocols for every high-net-worth client.</p>
+      </div>
+      <div class="card">
+        <h3>Bespoke Experiences</h3>
+        <p class="muted">From pop-up private dining to curated art access, all experiences are crafted to your taste, schedule and privacy needs.</p>
+      </div>
+      <div class="card">
+        <h3>Client Care</h3>
+        <p class="muted">Dedicated account manager, 24/7 support and proactive planning — we know your preferences and act on them.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services" style="display:none" aria-label="services">
+    <div class="section-head">
+      <h2>Services</h2>
+      <p class="lead">A select list of services we manage end-to-end for our members and bespoke clients.</p>
+    </div>
+
+    <div class="grid cols-3">
+      <div class="card"><h3>24/7 Personal Concierge</h3><p class="muted">Phone, app or white-glove — always available.</p></div>
+      <div class="card"><h3>Private Travel</h3><p class="muted">Charter jets, first-class itineraries, secure transfers & crew.</p></div>
+      <div class="card"><h3>VIP Events</h3><p class="muted">Red-carpet access, private tables, and bespoke event production.</p></div>
+      <div class="card"><h3>Luxury Shopping</h3><p class="muted">Private showrooms, acquisitions and personal styling.</p></div>
+      <div class="card"><h3>Wellness & Retreats</h3><p class="muted">Personal trainers, private chefs, restorative retreats curated globally.</p></div>
+      <div class="card"><h3>Security & Transport</h3><p class="muted">Discreet secure transport and vetted staff for peace of mind.</p></div>
+    </div>
+  </section>
+
+  <!-- MEMBERSHIP (multiple plans; all payment methods included) -->
+  <section id="membership" style="display:none" aria-label="membership">
+    <div class="section-head">
+      <h2>Membership Plans</h2>
+      <p class="lead">Choose a plan that matches your lifestyle — every plan includes 24/7 contact and dedicated account support. Select a payment method from the dropdown for each plan.</p>
+    </div>
+
+    <div class="plans">
+
+      <!-- Plan template repeated with all payment methods in dropdown -->
+      <!-- 1. Silver -->
+      <div class="plan card">
+        <h3>Silver</h3>
+        <div class="price">$199 / month</div>
+        <ul>
+          <li>Concierge & reservations</li>
+          <li>Local experiences</li>
+        </ul>
+
+        <div class="payRow small">
+          <label style="flex:1">Payment method
+            <select data-plan="Silver" onchange="planPaymentChange(event)">
+              <option value="">-- Choose --</option>
+              <option value="card">Credit / Debit Card</option>
+              <option value="upi">UPI / Bank</option>
+              <option value="netbank">Net Banking</option>
+              <option value="paypal">PayPal</option>
+              <option value="crypto">Crypto</option>
+            </select>
+          </label>
+        </div>
+
+        <div id="Silver-card" class="pay-fields">
+          <input placeholder="Card Number (xxxx-xxxx-xxxx-xxxx)">
+          <input placeholder="Name on Card">
+          <div style="display:flex;gap:8px">
+            <input placeholder="MM/YY">
+            <input placeholder="CVV">
+          </div>
+          <button class="btn" onclick="openPaymentModal('Silver',199,'$199 / month')">Pay $199</button>
+        </div>
+
+        <div id="Silver-upi" class="pay-fields">
+          <input placeholder="UPI ID (example@bank)">
+          <button class="btn" onclick="openPaymentModal('Silver',199,'$199 / month')">Pay $199</button>
+        </div>
+
+        <div id="Silver-netbank" class="pay-fields">
+          <input placeholder="Bank Name">
+          <input placeholder="Account/Transaction ID">
+          <button class="btn" onclick="openPaymentModal('Silver',199,'$199 / month')">Pay $199</button>
+        </div>
+
+        <div id="Silver-paypal" class="pay-fields">
+          <input placeholder="PayPal Email">
+          <button class="btn" onclick="openPaymentModal('Silver',199,'$199 / month')">Pay $199</button>
+        </div>
+
+        <div id="Silver-crypto" class="pay-fields">
+          <select><option>BTC</option><option>ETH</option><option>USDC</option></select>
+          <input placeholder="Wallet Address (or tx id)">
+          <button class="btn" onclick="openPaymentModal('Silver',199,'$199 / month')">Pay $199</button>
+        </div>
+      </div>
+
+      <!-- 2. Gold -->
+      <div class="plan card">
+        <h3>Gold</h3>
+        <div class="price">$499 / month</div>
+        <ul>
+          <li>Priority concierge</li>
+          <li>Travel & VIP upgrades</li>
+        </ul>
+
+        <div class="payRow small">
+          <label style="flex:1">
+            Payment method
+            <select data-plan="Gold" onchange="planPaymentChange(event)">
+              <option value="">-- Choose --</option>
+              <option value="card">Credit / Debit Card</option>
+              <option value="upi">UPI / Bank</option>
+              <option value="netbank">Net Banking</option>
+              <option value="paypal">PayPal</option>
+              <option value="crypto">Crypto</option>
+            </select>
+          </label>
+        </div>
+
+        <div id="Gold-card" class="pay-fields">
+          <input placeholder="Card Number (xxxx-xxxx-xxxx-xxxx)">
+          <input placeholder="Name on Card">
+          <div style="display:flex;gap:8px">
+            <input placeholder="MM/YY">
+            <input placeholder="CVV">
+          </div>
+          <button class="btn" onclick="openPaymentModal('Gold',499,'$499 / month')">Pay $499</button>
+        </div>
+
+        <div id="Gold-upi" class="pay-fields">
+          <input placeholder="UPI ID (example@bank)">
+          <button class="btn" onclick="openPaymentModal('Gold',499,'$499 / month')">Pay $499</button>
+        </div>
+
+        <div id="Gold-netbank" class="pay-fields">
+          <input placeholder="Bank Name">
+          <input placeholder="Account/Transaction ID">
+          <button class="btn" onclick="openPaymentModal('Gold',499,'$499 / month')">Pay $499</button>
+        </div>
+
+        <div id="Gold-paypal" class="pay-fields">
+          <input placeholder="PayPal Email">
+          <button class="btn" onclick="openPaymentModal('Gold',499,'$499 / month')">Pay $499</button>
+        </div>
+
+        <div id="Gold-crypto" class="pay-fields">
+          <select><option>BTC</option><option>ETH</option><option>USDC</option></select>
+          <input placeholder="Wallet Address (or tx id)">
+          <button class="btn" onclick="openPaymentModal('Gold',499,'$499 / month')">Pay $499</button>
+        </div>
+      </div>
+
+      <!-- 3. Platinum -->
+      <div class="plan card">
+        <h3>Platinum</h3>
+        <div class="price">$899 / month</div>
+        <ul>
+          <li>Dedicated team</li>
+          <li>Private jets & yachts</li>
+        </ul>
+
+        <div class="payRow small">
+          <label style="flex:1">
+            Payment method
+            <select data-plan="Platinum" onchange="planPaymentChange(event)">
+              <option value="">-- Choose --</option>
+              <option value="card">Credit / Debit Card</option>
+              <option value="upi">UPI / Bank</option>
+              <option value="netbank">Net Banking</option>
+              <option value="paypal">PayPal</option>
+              <option value="crypto">Crypto</option>
+            </select>
+          </label>
+        </div>
+
+        <div id="Platinum-card" class="pay-fields">
+          <input placeholder="Card Number (xxxx-xxxx-xxxx-xxxx)">
+          <input placeholder="Name on Card">
+          <div style="display:flex;gap:8px">
+            <input placeholder="MM/YY">
+            <input placeholder="CVV">
+          </div>
+          <button class="btn" onclick="openPaymentModal('Platinum',899,'$899 / month')">Pay $899</button>
+        </div>
+
+        <div id="Platinum-upi" class="pay-fields">
+          <input placeholder="UPI ID (example@bank)">
+          <button class="btn" onclick="openPaymentModal('Platinum',899,'$899 / month')">Pay $899</button>
+        </div>
+
+        <div id="Platinum-netbank" class="pay-fields">
+          <input placeholder="Bank Name">
+          <input placeholder="Account/Transaction ID">
+          <button class="btn" onclick="openPaymentModal('Platinum',899,'$899 / month')">Pay $899</button>
+        </div>
+
+        <div id="Platinum-paypal" class="pay-fields">
+          <input placeholder="PayPal Email">
+          <button class="btn" onclick="openPaymentModal('Platinum',899,'$899 / month')">Pay $899</button>
+        </div>
+
+        <div id="Platinum-crypto" class="pay-fields">
+          <select><option>BTC</option><option>ETH</option><option>USDC</option></select>
+          <input placeholder="Wallet Address (or tx id)">
+          <button class="btn" onclick="openPaymentModal('Platinum',899,'$899 / month')">Pay $899</button>
+        </div>
+      </div>
+
+      <!-- 4. Elite -->
+      <div class="plan card">
+        <h3>Elite</h3>
+        <div class="price">$1,499 / month</div>
+        <ul>
+          <li>Full VIP access</li>
+          <li>Personal lifestyle advisor</li>
+        </ul>
+
+        <div class="payRow small">
+          <label style="flex:1">
+            Payment method
+            <select data-plan="Elite" onchange="planPaymentChange(event)">
+              <option value="">-- Choose --</option>
+              <option value="card">Credit / Debit Card</option>
+              <option value="upi">UPI / Bank</option>
+              <option value="netbank">Net Banking</option>
+              <option value="paypal">PayPal</option>
+              <option value="crypto">Crypto</option>
+            </select>
+          </label>
+        </div>
+
+        <div id="Elite-card" class="pay-fields">
+          <input placeholder="Card Number (xxxx-xxxx-xxxx-xxxx)">
+          <input placeholder="Name on Card">
+          <div style="display:flex;gap:8px">
+            <input placeholder="MM/YY">
+            <input placeholder="CVV">
+          </div>
+          <button class="btn" onclick="openPaymentModal('Elite',1499,'$1,499 / month')">Pay $1,499</button>
+        </div>
+
+        <div id="Elite-upi" class="pay-fields">
+          <input placeholder="UPI ID (example@bank)">
+          <button class="btn" onclick="openPaymentModal('Elite',1499,'$1,499 / month')">Pay $1,499</button>
+        </div>
+
+        <div id="Elite-netbank" class="pay-fields">
+          <input placeholder="Bank Name">
+          <input placeholder="Account/Transaction ID">
+          <button class="btn" onclick="openPaymentModal('Elite',1499,'$1,499 / month')">Pay $1,499</button>
+        </div>
+
+        <div id="Elite-paypal" class="pay-fields">
+          <input placeholder="PayPal Email">
+          <button class="btn" onclick="openPaymentModal('Elite',1499,'$1,499 / month')">Pay $1,499</button>
+        </div>
+
+        <div id="Elite-crypto" class="pay-fields">
+          <select><option>BTC</option><option>ETH</option><option>USDC</option></select>
+          <input placeholder="Wallet Address (or tx id)">
+          <button class="btn" onclick="openPaymentModal('Elite',1499,'$1,499 / month')">Pay $1,499</button>
+        </div>
+      </div>
+
+      <!-- 5. Diamond -->
+      <div class="plan card">
+        <h3>Diamond</h3>
+        <div class="price">$2,999 / month</div>
+        <ul>
+          <li>Ultimate concierge & exclusive acquisitions</li>
+          <li>Private villa & yacht access</li>
+        </ul>
+
+        <div class="payRow small">
+          <label style="flex:1">
+            Payment method
+            <select data-plan="Diamond" onchange="planPaymentChange(event)">
+              <option value="">-- Choose --</option>
+              <option value="card">Credit / Debit Card</option>
+              <option value="upi">UPI / Bank</option>
+              <option value="netbank">Net Banking</option>
+              <option value="paypal">PayPal</option>
+              <option value="crypto">Crypto</option>
+            </select>
+          </label>
+        </div>
+
+        <div id="Diamond-card" class="pay-fields">
+          <input placeholder="Card Number (xxxx-xxxx-xxxx-xxxx)">
+          <input placeholder="Name on Card">
+          <div style="display:flex;gap:8px">
+            <input placeholder="MM/YY">
+            <input placeholder="CVV">
+          </div>
+          <button class="btn" onclick="openPaymentModal('Diamond',2999,'$2,999 / month')">Pay $2,999</button>
+        </div>
+
+        <div id="Diamond-upi" class="pay-fields">
+          <input placeholder="UPI ID (example@bank)">
+          <button class="btn" onclick="openPaymentModal('Diamond',2999,'$2,999 / month')">Pay $2,999</button>
+        </div>
+
+        <div id="Diamond-netbank" class="pay-fields">
+          <input placeholder="Bank Name">
+          <input placeholder="Account/Transaction ID">
+          <button class="btn" onclick="openPaymentModal('Diamond',2999,'$2,999 / month')">Pay $2,999</button>
+        </div>
+
+        <div id="Diamond-paypal" class="pay-fields">
+          <input placeholder="PayPal Email">
+          <button class="btn" onclick="openPaymentModal('Diamond',2999,'$2,999 / month')">Pay $2,999</button>
+        </div>
+
+        <div id="Diamond-crypto" class="pay-fields">
+          <select><option>BTC</option><option>ETH</option><option>USDC</option></select>
+          <input placeholder="Wallet Address (or tx id)">
+          <button class="btn" onclick="openPaymentModal('Diamond',2999,'$2,999 / month')">Pay $2,999</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CUSTOM / BUILD YOUR PLAN -->
+  <section id="custom" style="display:none" aria-label="custom">
+    <div class="section-head">
+      <h2>Build Your Custom Plan</h2>
+      <p class="lead">Select the services you want. Each service has a fixed price; extras included per-item are shown. After selecting, choose a payment method from the dropdown and Pay.</p>
+    </div>
+
+    <div class="custom card">
+      <form id="customForm">
+        <label><span>Private Jet</span><span>$50 <input type="checkbox" name="service" value="Private Jet" data-price="50"></span></label>
+        <label><span>Luxury Yacht</span><span>$45 <input type="checkbox" name="service" value="Luxury Yacht" data-price="45"></span></label>
+        <label><span>VIP Parties Access</span><span>$75 <input type="checkbox" name="service" value="VIP Parties" data-price="75"></span></label>
+        <label><span>Shopping Management Consultancy</span><span>$25 <input type="checkbox" name="service" value="Shopping" data-price="25"></span></label>
+        <label><span>Concierge Services</span><span>$20 <input type="checkbox" name="service" value="Concierge" data-price="20"></span></label>
+        <label><span>Wellness & Lifestyle</span><span>$35 <input type="checkbox" name="service" value="Wellness" data-price="35"></span></label>
+
+        <div style="margin-top:6px" class="small">Additional small services (e.g. reservations, confirmations) may be added at $20–$35 each — included as optional extras during checkout.</div>
+
+        <div style="margin-top:12px">
+          <label style="display:flex;gap:12px;align-items:center">
+            <span style="flex:1">Choose payment method</span>
+            <select id="customPaymentMethod" onchange="customPaymentChange()">
+              <option value="">-- Choose --</option>
+              <option value="card">Credit / Debit Card</option>
+              <option value="upi">UPI / Bank</option>
+              <option value="netbank">Net Banking</option>
+              <option value="paypal">PayPal</option>
+              <option value="crypto">Crypto</option>
+            </select>
+          </label>
+        </div>
+
+        <div id="Custom-card" class="pay-fields">
+          <input placeholder="Card Number (xxxx-xxxx-xxxx-xxxx)" id="custom-card-num">
+          <input placeholder="Name on Card" id="custom-card-name">
+          <div style="display:flex;gap:8px">
+            <input placeholder="MM/YY" id="custom-card-exp">
+            <input placeholder="CVV" id="custom-card-cvv">
+          </div>
+        </div>
+
+        <div id="Custom-upi" class="pay-fields">
+          <input placeholder="UPI ID (example@bank)" id="custom-upi-id">
+        </div>
+
+        <div id="Custom-netbank" class="pay-fields">
+          <input placeholder="Bank Name" id="custom-bank-name">
+          <input placeholder="Account / Transaction ID" id="custom-bank-tx">
+        </div>
+
+        <div id="Custom-paypal" class="pay-fields">
+          <input placeholder="PayPal Email" id="custom-paypal-email">
+        </div>
+
+        <div id="Custom-crypto" class="pay-fields">
+          <select id="custom-crypto-select"><option>BTC</option><option>ETH</option><option>USDC</option></select>
+          <input placeholder="Wallet Address or tx id" id="custom-crypto-addr">
+        </div>
+
+        <div style="display:flex;gap:10px;align-items:center;margin-top:12px;justify-content:flex-end">
+          <div class="small" id="custom-total">Total: $0</div>
+          <button type="button" class="btn" onclick="customCheckout()">Pay Selected</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section id="testimonials" style="display:none">
+    <div class="section-head">
+      <h2>What Our Clients Say</h2>
+      <p class="lead">Real words from clients who trusted Munjal Privé.</p>
+    </div>
+
+    <div class="test-list">
+      <div class="testimonial">
+        <img src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg" alt="">
+        <h4>Sarah L.</h4>
+        <div class="muted">"Discreet, prompt and truly exceptional. Munjal Privé elevated our events."</div>
+      </div>
+
+      <div class="testimonial">
+        <img src="https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg" alt="">
+        <h4>James K.</h4>
+        <div class="muted">"From jets to private dining — they managed everything flawlessly."</div>
+      </div>
+
+      <div class="testimonial">
+        <img src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg" alt="">
+        <h4>Emma R.</h4>
+        <div class="muted">"Their attention to detail is unmatched. Highly recommended."</div>
+      </div>
+
+      <div class="testimonial">
+        <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg" alt="">
+        <h4>David M.</h4>
+        <div class="muted">"Luxury redefined — Munjal Privé is now part of our lifestyle."</div>
+      </div>
+
+      <div class="testimonial">
+        <img src="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg" alt="">
+        <h4>Aya S.</h4>
+        <div class="muted">"Fast, courteous and beyond expectations. Truly elite services."</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" style="display:none">
+    <div class="section-head">
+      <h2>Contact & Free Trial</h2>
+      <p class="lead">Request your free one-week trial. No card required for trial signups.</p>
+    </div>
+
+    <div class="card" style="max-width:760px;margin:0 auto">
+      <form id="contactForm">
+        <div style="display:grid;gap:10px">
+          <input id="cname" placeholder="Full name" required>
+          <input id="cemail" placeholder="you@example.com" type="email" required>
+          <input id="cphone" placeholder="+91 99157 78764">
+          <textarea id="cmsg" rows="4" placeholder="Tell us about your needs"></textarea>
+          <div style="display:flex;gap:10px;justify-content:flex-end;align-items:center">
+            <button class="btn" type="submit">Request Free Week</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+  </section>
+
+</main>
+
+<!-- FOOTER (common) -->
+<footer>
+  <div class="foot-inner">
+    <div class="col">
+      <div style="font-weight:700;color:var(--gold)">Munjal Privé</div>
+      <div class="small">Elite Lifestyle Management • Privacy & Discretion • Global Network</div>
+    </div>
+    <div class="col small">Support: support@munjalprive.com • +91 99157 78764</div>
+  </div>
+</footer>
+
+<!-- ========== UNIFIED PAYMENT MODAL ========== -->
+<div class="modal-back" id="modalBack" role="dialog" aria-hidden="true">
+  <div class="modal" role="document">
+    <h3 id="modalTitle">Confirm Payment</h3>
+    <div id="modalBody">
+      <!-- lines will be injected -->
+    </div>
+    <div class="total" id="modalTotal"></div>
+    <div class="actions" style="display:flex;gap:10px;justify-content:flex-end;margin-top:14px">
+      <button style="background:#2b2b2b;color:#fff;border-radius:8px;padding:10px 12px" onclick="closeModal()">Cancel</button>
+      <button style="background:var(--gold);color:#000;border-radius:8px;padding:10px 12px" onclick="confirmPayment()">Confirm & Pay</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =================== NAV / UI =================== */
+const sections = [...document.querySelectorAll('main section')];
+function openSection(id){
+  // show the section & scroll
+  document.querySelectorAll('main section').forEach(s=>s.style.display = (s.id===id)?'block':'none');
+  window.scrollTo({top:0,behavior:'smooth'});
+  // small accessibility focus
+  const el=document.getElementById(id);
+  if(el) el.tabIndex=-1, el.focus();
+}
+
+// nav hamburger for small screens
+document.getElementById('hambBtn').addEventListener('click',()=>{
+  const nav = document.getElementById('navlinks');
+  nav.style.display = (nav.style.display==='flex') ? 'none' : 'flex';
+  nav.style.flexDirection='column';
+});
+
+// open default home
+openSection('home');
+
+
+/* =================== PLAN PAYMENT HANDLING =================== */
+/* When a plan's dropdown changes, show only the matching pay-fields block */
+function planPaymentChange(e){
+  const plan = e.target.dataset.plan;
+  const val = e.target.value; // card / upi / netbank / paypal / crypto
+  ['card','upi','netbank','paypal','crypto'].forEach(k=>{
+    const el = document.getElementById(`${plan}-${k}`);
+    if(el) el.classList.toggle('active', k===val);
+  });
+}
+
+/* =================== UNIFIED MODAL =================== */
+const modalBack = document.getElementById('modalBack');
+const modalBody = document.getElementById('modalBody');
+const modalTitle = document.getElementById('modalTitle');
+const modalTotal = document.getElementById('modalTotal');
+let currentPayment = null; // {title, items:[], total, method}
+
+function openPaymentModal(planName, amount, label){
+  // For direct plan buttons. Prepare modal with single item
+  currentPayment = {
+    title: planName,
+    items: [`${planName} — ${label}`],
+    total: Number(amount),
+    method: getSelectedMethodForPlan(planName) || 'Unknown'
+  };
+  renderModal();
+  modalBack.classList.add('active');
+}
+
+function getSelectedMethodForPlan(planName){
+  // find select with data-plan attribute
+  const sel = document.querySelector(`select[data-plan="${planName}"]`);
+  if(!sel) return null;
+  const v = sel.value;
+  return v || null;
+}
+
+function renderModal(){
+  modalBody.innerHTML = '';
+  modalTitle.textContent = `Confirm payment — ${currentPayment.title}`;
+  currentPayment.items.forEach(it=>{
+    const div = document.createElement('div');
+    div.className='line';
+    div.innerHTML = `<div>${escapeHtml(it)}</div><div class="muted"></div>`;
+    modalBody.appendChild(div);
+  });
+  const methodLine = document.createElement('div');
+  methodLine.className='line';
+  methodLine.innerHTML = `<div class="small">Payment method</div><div class="small">${escapeHtml(currentPayment.method)}</div>`;
+  modalBody.appendChild(methodLine);
+
+  modalTotal.textContent = `Total: $${Number(currentPayment.total).toFixed(2)}`;
+}
+
+function closeModal(){ modalBack.classList.remove('active'); currentPayment = null; }
+
+/* Confirm payment -> show success, reset any relevant UI */
+function confirmPayment(){
+  // In a real app you'd call payment APIs here
+  alert(`Payment Successful!\n\n${currentPayment.items.join('\n')}\n\nTotal: $${Number(currentPayment.total).toFixed(2)}`);
+  // reset UI
+  closeModal();
+  // Optionally reset selects/fields for plans - keep current design minimal
+}
+
+/* simple html escape for safety in modal */
+function escapeHtml(s){ return (s+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+
+/* =================== CUSTOM PLAN LOGIC =================== */
+const customForm = document.getElementById('customForm');
+const customTotalEl = document.getElementById('custom-total');
+function computeCustomTotal(){
+  const checked = [...customForm.querySelectorAll('input[name="service"]:checked')];
+  let total = 0;
+  let items = [];
+  checked.forEach(cb=>{
+    const p = Number(cb.dataset.price||0);
+    total += p;
+    items.push(`${cb.value} ($${p})`);
+  });
+  // extras: show that some small extras may be added - here we won't automatically add them, but could
+  customTotalEl.textContent = `Total: $${total.toFixed(2)}`;
+  return {total, items};
+}
+
+customForm.addEventListener('change', ()=> computeCustomTotal());
+computeCustomTotal(); // init
+
+// show/hide custom payment fields based on dropdown
+function customPaymentChange(){
+  ['card','upi','netbank','paypal','crypto'].forEach(k=>{
+    const el = document.getElementById(`Custom-${k}`);
+    if(el) el.classList.remove('active');
+  });
+  const sel = document.getElementById('customPaymentMethod');
+  if(!sel) return;
+  const v = sel.value;
+  const target = document.getElementById(`Custom-${v}`);
+  if(target) target.classList.add('active');
+}
+
+// When user clicks Pay on custom plan
+function customCheckout(){
+  const result = computeCustomTotal();
+  if(result.items.length===0){ alert('Please select at least one service.'); return; }
+  const methodSel = document.getElementById('customPaymentMethod');
+  const method = methodSel ? methodSel.value : '';
+  if(!method){ alert('Please choose a payment method.'); return; }
+  // build display items
+  currentPayment = {
+    title: 'Custom Plan',
+    items: result.items,
+    total: Number(result.total),
+    method: method.toUpperCase()
+  };
+  renderModal();
+  modalBack.classList.add('active');
+  // Note: After confirmPayment() user will be alerted success and modal closes
+  // We reset the custom form after successful confirm if you want to do so there.
+}
+
+/* =================== CONTACT FORM =================== */
+document.getElementById('contactForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  const name = document.getElementById('cname').value || 'Guest';
+  alert(`Thank you, ${name}! Your free trial request has been received. Our team will contact you soon.`);
+  this.reset();
+});
+
+/* =================== Helper: showSection on load if hash set =================== */
+(function(){
+  const hash = window.location.hash.replace('#','');
+  if(hash && document.getElementById(hash)){ openSection(hash); }
+})();
+</script>
+</body>
+</html>
